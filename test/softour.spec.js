@@ -5,14 +5,11 @@ const chrome = require('selenium-webdriver/chrome');
 const chromedriver = require('chromedriver');
 const AlertText = require('../enums/AlertText');
 
-
 describe('Softour test', () => {
   let driver;
   let clickWhenClickable;
 
   beforeEach(() => {
-    chrome.setDefaultService(new chrome.ServiceBuilder(chromedriver.path).build());
-
     driver = new webdriver.Builder()
       .withCapabilities(webdriver.Capabilities.chrome())
       .build();
