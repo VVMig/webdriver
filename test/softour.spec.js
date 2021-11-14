@@ -20,8 +20,13 @@ describe('Softour test', () => {
       "--headless"
     ];
 
+    const options = new chrome.Options();
+
+    options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage")
+
     driver = new webdriver.Builder()
-      .withCapabilities(webdriver.Capabilities.chrome().set('chromeOptions', { args }))
+      .forBrowser('chrome')
+      .setChromeOptions(options)
       .build();
 
     driver.manage().window().maximize();
