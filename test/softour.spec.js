@@ -10,9 +10,21 @@ describe('Softour test', () => {
   let clickWhenClickable;
 
   beforeEach(() => {
+    const args = [
+      "--disable-extensions",
+      "--window-size=1366,768",
+      "--no-sandbox", // required for Linux without GUI
+      "--disable-gpu", // required for Windows,
+      "--enable-logging --v=1", // write debug logs to file(debug.log),
+      "--disable-dev-shm-usage",
+      "--headless"
+    ];
+
     driver = new webdriver.Builder()
-      .withCapabilities(webdriver.Capabilities.chrome())
+      .withCapabilities(webdriver.Capabilities.chrome().set('chromeOptions', { args }))
       .build();
+
+    driver.manage().window().maximize();
 
     clickWhenClickable = async (locator, timeout) => {
       await driver.wait(function () {
