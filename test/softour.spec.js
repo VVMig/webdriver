@@ -4,59 +4,47 @@ const { By } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const chromedriver = require('chromedriver');
 const AlertText = require('../enums/AlertText');
+const HomePage = require('../page/HomePage');
 
 describe('Softour test', () => {
   let driver;
-  let clickWhenClickable;
 
   beforeEach(() => {
-    const args = [
-      "--disable-extensions",
-      "--window-size=1366,768",
-      "--no-sandbox", // required for Linux without GUI
-      "--disable-gpu", // required for Windows,
-      "--enable-logging --v=1", // write debug logs to file(debug.log),
-      "--disable-dev-shm-usage",
-      "--headless"
-    ];
-
     const options = new chrome.Options();
 
     options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage")
 
     driver = new webdriver.Builder()
       .forBrowser('chrome')
-      .setChromeOptions(options)
+      // .setChromeOptions(options)
       .build();
 
     driver.manage().window().maximize();
+  });
 
-    clickWhenClickable = async (locator, timeout) => {
-      await driver.wait(function () {
-        return driver.findElement(locator).then(function (element) {
-          return element.click().then(function () {
-            return true;
-          }, function () {
-            return false;
-          })
-        }, function () {
-          return false;
-        });
-      }, timeout, 'Timeout waiting for ' + locator.value);;
+  it('Should open home page', async () => {
+    try {
+      const homePage = new HomePage(driver);
+
+      await homePage.openHomePage();
+    } finally {
+      await driver.quit();
     }
   });
 
-  it('Should display validation alert with correct text', async () => {
+  it('Should display correct alert message when phone number have not provided', async () => {
     try {
-      await driver.get('https://www.softtour.by/hotels/turkey/larissa-blue-3');
+      const homePage = new HomePage(driver);
 
-      await driver.findElement(By.xpath('//*[@id="tour_182263288"]/td[9]/div')).click();
+      await homePage.openHomePage();
 
-      await driver.wait(clickWhenClickable(By.xpath('/html/body[@class="cbp-spmenu-push modal-open"]/*[@id="submit_request"]/div/div/div[3]/button[1]'), 10000));
+      await homePage.findElementByLocatorAndClick(homePage.leftApplicationButton);
 
-      const alertText = await driver.switchTo().alert().getText();
+      await homePage.clickWhenClickable(homePage.dialogWindowSendRequestButton, 10000);
 
-      assert.equal(alertText, AlertText.PHONE_NUMBER_REQUIRED);
+      const alertText = await homePage.getAlertText();
+
+      assert.equal(`${alertText}`, AlertText.PHONE_NUMBER_REQUIRED);
     } finally {
       await driver.quit();
     }
