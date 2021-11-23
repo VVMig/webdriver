@@ -1,6 +1,5 @@
 const { assert } = require('chai')
 const webdriver = require('selenium-webdriver');
-const { By } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const chromedriver = require('chromedriver');
 const AlertText = require('../enums/AlertText');
@@ -16,7 +15,7 @@ describe('Softour test', () => {
 
     driver = new webdriver.Builder()
       .forBrowser('chrome')
-      // .setChromeOptions(options)
+      .setChromeOptions(options)
       .build();
 
     driver.manage().window().maximize();
