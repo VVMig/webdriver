@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "removeComments": true,
+    "outFile": "../../built/local/tsc.js",
+    "module": "system",
+    "sourceMap": true,
+    "moduleResolution": "node"
+  },
+  "exclude": [
+    "node_modules",
+    "./*.spec.ts"
+  ]
+}
