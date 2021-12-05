@@ -19,10 +19,6 @@ describe('Round selection page test', () => {
     roundSelectionPage = new RoundSelectionPage(driver);
   });
 
-  afterEach(async () => {
-    await driver.quit();
-  });
-
   it('Should display list of hotels', async () => {
     await roundSelectionPage.openPage();
 
@@ -31,6 +27,8 @@ describe('Round selection page test', () => {
     const hotels = await roundSelectionPage.getListOfHotels();
 
     assert.isTrue(!!hotels.length);
+
+    await driver.quit();
   });
 
   it('Should search hotels by word', async () => {
@@ -44,6 +42,8 @@ describe('Round selection page test', () => {
 
       assert.isAbove(searchResults.filter(searchResult => searchResult.match(new RegExp(word, 'i'))).length, 0);
     }
+
+    await driver.quit();
   });
 
   it('Should change url path when Turkey\'s tour selected', async () => {
@@ -54,6 +54,8 @@ describe('Round selection page test', () => {
     const url = await roundSelectionPage.getCurrentUrl();
 
     assert.equal(url, PageUrls.TURKEY_SELECTION);
+
+    await driver.quit();
   });
 
   it('Should change url path when Maldives tour selected', async () => {
@@ -78,7 +80,9 @@ describe('Round selection page test', () => {
     const hotels = await roundSelectionPage.getListOfHotels();
 
     assert.isTrue(!!hotels.length);
-    assert.isTrue(hotels.every(hotel => hotel.getName().match(new RegExp(searchWord, 'i'))));
+    assert.isTrue(hotels.every(hotel => hotel.getName().match(new RegExp(searchWord, 'i'))));    
+
+    await driver.quit();
   });
 
   it('Should correct sort up price in range', async () => {
@@ -98,5 +102,7 @@ describe('Round selection page test', () => {
 
       return price >= from && price <= to;
     }));
+    
+    await driver.quit();
   });
 });

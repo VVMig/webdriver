@@ -18,16 +18,14 @@ describe('Home page test', () => {
     homePage = new HomePage(driver);
   });
 
-  afterEach(async () => {
-    await driver.quit();
-  });
-
   it('Should display correct phone numbers in contact information modal window', async () => {   
     await homePage.openPage();
 
     const phoneNumbers = await homePage.getPhoneNumbersFromContactInformationModal();
 
     assert.deepEqual(phoneNumbers, contactPhoneNumbers);
+
+    await driver.quit();
   });
 
   it('Should correct send application information', async () => {
@@ -50,6 +48,8 @@ describe('Home page test', () => {
 
     assert.equal(alertText, AlertMessages.AGREE_CHECK);
     assert.equal(url, PageUrls.CLIENT_REQUEST);
+
+    await driver.quit();
   });
 
   it('Should have BYN currency by default', async () => {
@@ -58,6 +58,8 @@ describe('Home page test', () => {
     const hotels = await homePage.getListOfHotels();
 
     assert.isTrue(hotels.every(hotel => hotel.getPrice().split(' ').reverse()[0] === Currency.BYN));
+
+    await driver.quit();
   });
 
   it('Should correct change currency to RUB', async () => {
@@ -68,6 +70,8 @@ describe('Home page test', () => {
     const hotels = await homePage.getListOfHotels();
 
     assert.isTrue(hotels.every(hotel => hotel.getPrice().split(' ').reverse()[0] === Currency.RUB));
+
+    await driver.quit();
   });
 
   it('Should redirect to the correct country round selection for Turkey', async () => {
@@ -80,6 +84,8 @@ describe('Home page test', () => {
     const url = await homePage.getUrlOfNewTab(PageTitles.TURKEY_SELECTION);
 
     assert.equal(url, PageUrls.TURKEY_SELECTION);
+
+    await driver.quit();
   });
 
   it('Should redirect to the correct country round selection for Maldive', async () => {
@@ -92,5 +98,7 @@ describe('Home page test', () => {
     const url = await homePage.getUrlOfNewTab(PageTitles.MALDIVES_SELECTION);
 
     assert.equal(url, PageUrls.MALDIVES_SELECTION);
+
+    await driver.quit();
   });
 });
