@@ -12,12 +12,10 @@ describe('Home page test', () => {
   let driver: ThenableWebDriver;
   let homePage: HomePage;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     driver = new DriverManager().getDriver();
 
     homePage = new HomePage(driver);
-
-    await homePage.openPage();
   });
 
   afterEach(async () => {
@@ -25,12 +23,16 @@ describe('Home page test', () => {
   });
 
   it('Should display correct phone numbers in contact information modal window', async () => {   
+    await homePage.openPage();
+
     const phoneNumbers = await homePage.getPhoneNumbersFromContactInformationModal();
 
     assert.deepEqual(phoneNumbers, contactPhoneNumbers);
   });
 
   it('Should correct send application information', async () => {
+    await homePage.openPage();
+
     await homePage.openApplicationModal();
     await homePage.fillApplicationFormInfo();
     await homePage.submitApplicationFormModal();
@@ -51,12 +53,16 @@ describe('Home page test', () => {
   });
 
   it('Should have BYN currency by default', async () => {
+    await homePage.openPage();
+
     const hotels = await homePage.getListOfHotels();
 
     assert.isTrue(hotels.every(hotel => hotel.getPrice().split(' ').reverse()[0] === Currency.BYN));
   });
 
   it('Should correct change currency to RUB', async () => {
+    await homePage.openPage();
+
     await homePage.changeCurrencyDisplay(CurrencyValueInList.RUB);
 
     const hotels = await homePage.getListOfHotels();
@@ -65,6 +71,8 @@ describe('Home page test', () => {
   });
 
   it('Should redirect to the correct country round selection for Turkey', async () => {
+    await homePage.openPage();
+
     await homePage.fillFormForTour(CountryValues.TURKEY);
 
     await homePage.submitFormForTour();
@@ -75,6 +83,8 @@ describe('Home page test', () => {
   });
 
   it('Should redirect to the correct country round selection for Maldive', async () => {
+    await homePage.openPage();
+
     await homePage.fillFormForTour(CountryValues.MALDIVES);
 
     await homePage.submitFormForTour();

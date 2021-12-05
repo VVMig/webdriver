@@ -13,12 +13,10 @@ describe('Round selection page test', () => {
   let driver: ThenableWebDriver;
   let roundSelectionPage: RoundSelectionPage;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     driver = new DriverManager().getDriver();
 
     roundSelectionPage = new RoundSelectionPage(driver);
-
-    await roundSelectionPage.openPage();
   });
 
   afterEach(async () => {
@@ -26,6 +24,8 @@ describe('Round selection page test', () => {
   });
 
   it('Should display list of hotels', async () => {
+    await roundSelectionPage.openPage();
+
     await roundSelectionPage.submitSearchForm();
 
     const hotels = await roundSelectionPage.getListOfHotels();
@@ -34,6 +34,8 @@ describe('Round selection page test', () => {
   });
 
   it('Should search hotels by word', async () => {
+    await roundSelectionPage.openPage();
+
     const findByWords = ['Akas', 'eg', 'ssi', 'aladdin'];
 
     for await (const word of findByWords) {
@@ -45,6 +47,8 @@ describe('Round selection page test', () => {
   });
 
   it('Should change url path when Turkey\'s tour selected', async () => {
+    await roundSelectionPage.openPage();
+
     await roundSelectionPage.selectCountryForTour(CountryValues.TURKEY);
 
     const url = await roundSelectionPage.getCurrentUrl();
@@ -53,6 +57,8 @@ describe('Round selection page test', () => {
   });
 
   it('Should change url path when Maldives tour selected', async () => {
+    await roundSelectionPage.openPage();
+
     await roundSelectionPage.selectCountryForTour(CountryValues.MALDIVES);
 
     const url = await roundSelectionPage.getCurrentUrl();
@@ -61,6 +67,8 @@ describe('Round selection page test', () => {
   });
 
   it('Hotel list should contains hotels from search area', async () => {
+    await roundSelectionPage.openPage();
+
     const searchWord = 'aka'
 
     await roundSelectionPage.searchHotelsByName(searchWord);
@@ -74,6 +82,8 @@ describe('Round selection page test', () => {
   });
 
   it('Should correct sort up price in range', async () => {
+    await roundSelectionPage.openPage();
+
     const [from, to] = [2500, 2700];
 
     await roundSelectionPage.submitSearchForm();
